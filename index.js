@@ -52,10 +52,27 @@ function checkSensors() {
 }
 
 ////// dweet
+
+// make the POST data a JSON object and stringify it:
+var postData =JSON.stringify({
+  'sensorValue':23
+});
+
+/*
+ set up the options for the request.
+ the full URL in this case is:
+ http://example.com:443/login
+*/
+
 var options = {
   host: 'dweet.io',
   port: 443,
-  path: '/get/latest/dweet/for/subsequent-cook'
+  path: '/dweet/for/scandalous-cheese-hoarder',
+	method: 'POST',
+	headers: {
+    'Content-Type': 'application/json',
+    'Content-Length': postData.length
+  }
 };
 
 /*
@@ -78,11 +95,9 @@ function callback(response) {
 }
 
 // make the actual request:
-var request = https.request(options, callback);	// start it.
-request.write('hi');
-request.end();		
-
-
+var request = https.request(options, callback);	// start it
+request.write(postData);							// send the data
+request.end();												// end it
 
 
 
