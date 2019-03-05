@@ -9,6 +9,7 @@
 */
 
 var https = require('https');
+var temp = -1 ;
 
 
 const mcpadc = require('mcp-spi-adc');  // include the MCP SPI library
@@ -34,6 +35,7 @@ function checkSensors() {
     if (error) throw error;
     // range is 0-1. Convert to Celsius (see TMP36 data sheet for details)
     device.temperature = (reading.value * 3.3 - 0.5) * 100;
+    temp = device.temperature;
   }
   
   // callback function for potentiometer.read():
@@ -54,8 +56,14 @@ function checkSensors() {
 ////// dweet
 
 // make the POST data a JSON object and stringify it:
+
+// sensor value
 var postData =JSON.stringify({
-  'sensorValue':23
+  'sensorValue':temp // get new sensor data 
+  // Mac
+  // session id
+
+
 });
 
 /*
@@ -63,6 +71,19 @@ var postData =JSON.stringify({
  the full URL in this case is:
  http://example.com:443/login
 */
+
+/// change  to toms server
+// var options = {
+//   host: 'tigoe.io',
+//   port: 443,
+//   path: '/data',
+// 	method: 'POST',
+// 	headers: {
+//            'User-Agent': 'nodejs',
+//            'Content-Type': 'application/json',
+//            'Content-Length': postData.length
+//         }
+// };
 
 var options = {
   host: 'dweet.io',
@@ -95,12 +116,15 @@ function callback(response) {
 }
 
 // make the actual request:
+function sendingTom (){
 var request = https.request(options, callback);	// start it
 request.write(postData);							// send the data
 request.end();												// end it
-
+}
 
 
 
 // set an interval once a second to read the sensors:
 setInterval(checkSensors, 1000);
+// set an interval once a second to send to Tom 
+setInterval(sedingTom, 1000);
