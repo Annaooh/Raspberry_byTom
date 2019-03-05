@@ -36,6 +36,7 @@ function checkSensors() {
     // range is 0-1. Convert to Celsius (see TMP36 data sheet for details)
     device.temperature = (reading.value * 3.3 - 0.5) * 100;
     temp = device.temperature;
+
   }
   
   // callback function for potentiometer.read():
@@ -57,14 +58,14 @@ function checkSensors() {
 
 // make the POST data a JSON object and stringify it:
 
-// sensor value
-var postData =JSON.stringify({
-  'sensorValue':temp // get new sensor data 
-  // Mac
-  // session id
+// // sensor value
+// var postData =JSON.stringify({
+//   'sensorValue':temp // get new sensor data 
+//   // Mac
+//   // session id
 
 
-});
+// });
 
 /*
  set up the options for the request.
@@ -85,16 +86,16 @@ var postData =JSON.stringify({
 //         }
 // };
 
-var options = {
-  host: 'dweet.io',
-  port: 443,
-  path: '/dweet/for/scandalous-cheese-hoarder',
-	method: 'POST',
-	headers: {
-    'Content-Type': 'application/json',
-    'Content-Length': postData.length
-  }
-};
+// var options = {
+//   host: 'dweet.io',
+//   port: 443,
+//   path: '/dweet/for/scandalous-cheese-hoarder',
+// 	method: 'POST',
+// 	headers: {
+//     'Content-Type': 'application/json',
+//     'Content-Length': postData.length
+//   }
+// };
 
 /*
 	the callback function to be run when the response comes in.
@@ -117,9 +118,32 @@ function callback(response) {
 
 // make the actual request:
 function sendingTom (){
+// sensor value
+var postData =JSON.stringify({
+  'sensorValue':temp // get new sensor data 
+  // Mac
+  // session id
+
+
+});
+
+
+var options = {
+  host: 'dweet.io',
+  port: 443,
+  path: '/dweet/for/scandalous-cheese-hoarder',
+	method: 'POST',
+	headers: {
+    'Content-Type': 'application/json',
+    'Content-Length': postData.length
+  }
+};
+
+
 var request = https.request(options, callback);	// start it
 request.write(postData);							// send the data
 request.end();												// end it
+
 }
 
 
@@ -127,4 +151,4 @@ request.end();												// end it
 // set an interval once a second to read the sensors:
 setInterval(checkSensors, 1000);
 // set an interval once a second to send to Tom 
-setInterval(sedingTom, 1000);
+setInterval(sendingTom, 1000);
