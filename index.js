@@ -129,14 +129,16 @@ var postData =JSON.stringify({
 
 
 var options = {
-  host: 'dweet.io',
+
+  host: 'tigoe.io',
   port: 443,
-  path: '/dweet/for/scandalous-cheese-hoarder',
+  path: '/data',
 	method: 'POST',
 	headers: {
-    'Content-Type': 'application/json',
-    'Content-Length': postData.length
-  }
+           'User-Agent': 'nodejs',
+           'Content-Type': 'application/json',
+           'Content-Length': postData.length
+        }
 };
 
 
