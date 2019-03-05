@@ -8,6 +8,9 @@
   by Tom Igoe
 */
 
+var https = require('https');
+
+
 const mcpadc = require('mcp-spi-adc');  // include the MCP SPI library
 const sampleRate = { speedHz: 20000 };  // ADC sample rate
 let device = {};      // object for device characteristics
@@ -47,6 +50,42 @@ function checkSensors() {
     console.log(device);
   }
 }
+
+////// dweet
+var options = {
+  host: 'dweet.io',
+  port: 443,
+  path: '/get/latest/dweet/for/subsequent-cook'
+};
+
+/*
+	the callback function to be run when the response comes in.
+	this callback assumes a chunked response, with several 'data'
+	events and one final 'end' response.
+*/
+function callback(response) {
+  var result = '';		// string to hold the response
+
+  // as each chunk comes in, add it to the result string:
+  response.on('data', function (data) {
+    result += data;
+  });
+
+  // when the final chunk comes in, print it out:
+  response.on('end', function () {
+    console.log(result);
+  });
+}
+
+// make the actual request:
+var request = https.request(options, callback);	// start it.
+request.write('hi');
+request.end();		
+
+
+
+
+
 
 // set an interval once a second to read the sensors:
 setInterval(checkSensors, 1000);
