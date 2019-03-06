@@ -28,7 +28,7 @@ channels.push(potentiometer);
 const Gpio = require('onoff').Gpio
 // set LED as output:
 let ledGreen = new Gpio(17, 'out');
-let ledRed = new Gpio(18, 'out');
+let ledRed = new Gpio(27, 'out');
 // the state of the LED;
 let ledGreenState = 0;
 let ledRedState = 1;
