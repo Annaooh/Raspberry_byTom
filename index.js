@@ -27,9 +27,11 @@ channels.push(potentiometer);
 // import required modules
 const Gpio = require('onoff').Gpio
 // set LED as output:
-let led = new Gpio(17, 'out');
+let ledGreen = new Gpio(17, 'out');
+let ledRed = new Gpio(18, 'out');
 // the state of the LED;
-let ledState = 0;
+let ledGreenState = 0;
+let ledRedState = 0;
 
 
 
@@ -53,13 +55,16 @@ function checkSensors() {
     ///set LED on for certain value of temp
     if (device.temperature  < 25) {
     
-     ledState =1
+     ledGreenState =1
+     ledRedState = 0
         
       } else {
-          ledState = 0;
+          ledGreenState = 0;
+          ledRedState = 1;
       }
       // set the LED with ledState:
-      led.writeSync(ledState);
+      ledGreen.writeSync(ledGreenState);
+      ledRed.writeSync(ledRedState);
   }
 
   
@@ -108,6 +113,8 @@ var postData =JSON.stringify({
   "data": `{ \"sensorValue\":${temp}}`
 
 
+
+  
 });
 
 
@@ -136,4 +143,4 @@ request.end();												// end it
 // set an interval once a second to read the sensors:
 setInterval(checkSensors, 1000);
 // set an interval once a second to send to Tom 
-setInterval(sendingTom, 1000);
+setInterval(sendingTom, 60*60*1000);
