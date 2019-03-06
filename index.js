@@ -31,7 +31,7 @@ let ledGreen = new Gpio(17, 'out');
 let ledRed = new Gpio(18, 'out');
 // the state of the LED;
 let ledGreenState = 0;
-let ledRedState = 0;
+let ledRedState = 1;
 
 
 
@@ -59,8 +59,8 @@ function checkSensors() {
      ledRedState = 0
         
       } else {
-          ledGreenState = 0;
-          ledRedState = 1;
+          ledGreenState = 0
+          ledRedState = 1
       }
       // set the LED with ledState:
       ledGreen.writeSync(ledGreenState);
