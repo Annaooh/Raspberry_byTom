@@ -23,6 +23,20 @@ channels.push(tempSensor);
 let potentiometer = mcpadc.open(2, sampleRate, addNewChannel);
 channels.push(potentiometer);
 
+
+// import required modules
+const Gpio = require('onoff').Gpio
+// set LED as output:
+let led = new Gpio(17, 'out');
+// the state of the LED;
+let ledState = 0;
+
+
+
+// start the event listener:
+button.watch(readButton);
+
+
 // callback for open() commands. Doesn't do anything here:
 function addNewChannel(error) {
   if (error) throw error;
@@ -36,6 +50,17 @@ function checkSensors() {
     // range is 0-1. Convert to Celsius (see TMP36 data sheet for details)
     device.temperature = (reading.value * 3.3 - 0.5) * 100;
     temp = device.temperature;
+    ///set LED on for certain value of temp
+    if (device.temperature  < 25) {
+    
+     ledState =1
+        
+      } else {
+          ledState = 0;
+      }
+      // set the LED with ledState:
+      led.writeSync(ledState);
+  }
 
   }
   
@@ -54,48 +79,6 @@ function checkSensors() {
   }
 }
 
-////// dweet
-
-// make the POST data a JSON object and stringify it:
-
-// // sensor value
-// var postData =JSON.stringify({
-//   'sensorValue':temp // get new sensor data 
-//   // Mac
-//   // session id
-
-
-// });
-
-/*
- set up the options for the request.
- the full URL in this case is:
- http://example.com:443/login
-*/
-
-/// change  to toms server
-// var options = {
-//   host: 'tigoe.io',
-//   port: 443,
-//   path: '/data',
-// 	method: 'POST',
-// 	headers: {
-//            'User-Agent': 'nodejs',
-//            'Content-Type': 'application/json',
-//            'Content-Length': postData.length
-//         }
-// };
-
-// var options = {
-//   host: 'dweet.io',
-//   port: 443,
-//   path: '/dweet/for/scandalous-cheese-hoarder',
-// 	method: 'POST',
-// 	headers: {
-//     'Content-Type': 'application/json',
-//     'Content-Length': postData.length
-//   }
-// };
 
 /*
 	the callback function to be run when the response comes in.
@@ -103,7 +86,7 @@ function checkSensors() {
 	events and one final 'end' response.
 */
 function callback(response) {
-  var result = '';		// string to hold the response
+  var result = '';		// string to hold the response  
 
   // as each chunk comes in, add it to the result string:
   response.on('data', function (data) {
@@ -120,9 +103,9 @@ function callback(response) {
 function sendingTom (){
 // sensor value
 var postData =JSON.stringify({
-  'sensorValue':temp // get new sensor data 
-  // Mac
-  // session id
+  "macAddress" : "b8:27:eb:93:e8:ee",
+  "sessionKey" : "e30f3015-5e91-4fc3-8ae2-60ab787fbde2",
+  "data": { "sensorValue":temp}
 
 
 });
