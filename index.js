@@ -62,7 +62,7 @@ function checkSensors() {
       led.writeSync(ledState);
   }
 
-  }
+  
   
   // callback function for potentiometer.read():
   function getKnob(error, reading) {
