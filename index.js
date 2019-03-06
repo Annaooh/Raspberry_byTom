@@ -34,7 +34,7 @@ let ledState = 0;
 
 
 // start the event listener:
-button.watch(readButton);
+//button.watch(readButton);
 
 
 // callback for open() commands. Doesn't do anything here:
