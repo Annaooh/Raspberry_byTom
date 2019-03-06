@@ -105,7 +105,7 @@ function sendingTom (){
 var postData =JSON.stringify({
   "macAddress" : "b8:27:eb:93:e8:ee",
   "sessionKey" : "e30f3015-5e91-4fc3-8ae2-60ab787fbde2",
-  "data": { "sensorValue":temp}
+  "data": { `\"sensorValue\":${temp}`}
 
 
 });
